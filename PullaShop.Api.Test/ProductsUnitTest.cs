@@ -10,13 +10,25 @@ public class ProductsUnitTest
     [TestMethod]
     public void TestGetAllProducts()
     {
-        var allProducts = new List<ProductModel>() {};
+        var productData = new ProductData();
 
-        var expectedProducts = new List<ProductModel>() {
-            new ProductModel { Name = "Tuote" }
-        };
+        //Get 
+        var allProducts = productData.GetAllProducts();
 
-        CollectionAssert.AreEqual(allProducts, expectedProducts);
+        var expectedProductCount = 1; 
 
+        Assert.AreEqual(expectedProductCount, allProducts);
+    }
+
+    [TestMethod]
+    public void TestGetSingleProduct()
+    {
+        var productData = new ProductData();
+
+        var actualProduct = productData.GetProduct(0);
+
+        var expectedProduct = new ProductModel { Name = "Test Product" };
+
+        Assert.AreEqual(expectedProduct.Name, actualProduct.Name);
     }
 }
