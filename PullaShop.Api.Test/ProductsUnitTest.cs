@@ -10,8 +10,9 @@ namespace PullaShop.Api.Test;
 [TestClass]
 public class ProductsUnitTest
 {
+    //Todo: Investigate: Skipped but why?
     [TestMethod]
-    public void GetAllProductsReturnsAllProducts()
+    public async Task GetAllProductsReturnsAllProducts()
     {
 
         // Arrange
@@ -21,7 +22,7 @@ public class ProductsUnitTest
         var productData = mock.Object;
 
         // Act
-        var actualAllProducts = productData.GetAllProducts().Result;
+        var actualAllProducts = await productData.GetAllProducts();
 
         // Assert
         Assert.AreEqual(1,actualAllProducts.Count);
