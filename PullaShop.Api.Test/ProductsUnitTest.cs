@@ -10,7 +10,7 @@ namespace PullaShop.Api.Test;
 public class ProductsUnitTest
 {
     //Todo: Investigate: Skipped but why?
-     [Fact]
+    [Fact]
     public async Task GetAllProductsReturnsAllProducts()
     {
 
