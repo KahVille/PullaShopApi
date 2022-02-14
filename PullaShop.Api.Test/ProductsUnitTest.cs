@@ -17,7 +17,7 @@ public class ProductsUnitTest
     {
 
         // Arrange
-        var initialProduct = new ProductModel { Name = "Test Product" };
+        var initialProduct = new ProductModel { Id= 0, Name = "Test Product" };
         var mock = new Mock<IProductData>();
         mock.Setup(products => products.GetAllProducts()).ReturnsAsync(new List<ProductModel>() {initialProduct});
         var productData = mock.Object;
@@ -34,7 +34,7 @@ public class ProductsUnitTest
     public async Task GetProductReturnsProduct()
     {
         // Arrange
-        var expectedProduct = new ProductModel { Name = "Test Product" };
+        var expectedProduct = new ProductModel { Id= 0, Name = "Test Product" };
         var mock = new Mock<IProductData>();
         mock.Setup(products => products.GetProduct(1)).ReturnsAsync(expectedProduct);
         var productData = mock.Object;
