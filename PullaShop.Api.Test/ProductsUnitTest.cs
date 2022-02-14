@@ -10,6 +10,8 @@ namespace PullaShop.Api.Test;
 public class ProductsUnitTest
 {
 
+    // Note Tests not respond to actual implementations yet with mocking
+
     [Fact]
     public async Task GetAllProductsReturnsAllProducts()
     {
@@ -31,16 +33,16 @@ public class ProductsUnitTest
     [Fact]
     public async Task GetProductReturnsProduct()
     {
-        //  // Arrange
+        // Arrange
         var expectedProduct = new ProductModel { Name = "Test Product" };
         var mock = new Mock<IProductData>();
         mock.Setup(products => products.GetProduct(1)).ReturnsAsync(expectedProduct);
         var productData = mock.Object;
 
-        // // Act
+        // Act
         var actualProduct = await productData.GetProduct(1);
 
-        // // Assert
+        // Assert
         Assert.Equal<ProductModel>(expected: expectedProduct, actual: actualProduct);
     }
 
