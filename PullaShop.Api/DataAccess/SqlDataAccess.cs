@@ -4,13 +4,13 @@ using MySql.Data.MySqlClient;
 
 namespace PullaShop.Api.DataAccess.DatabaseAccess;
 
-public class DataAccess : IDataAccess 
+public class SqlDataAccess : ISqlDataAccess
 {
         private readonly IConfiguration _config;
 
         public string MyConnectionString { get; set; } = "Default";
 
-        public DataAccess(IConfiguration config)
+        public SqlDataAccess(IConfiguration config)
         {
             _config = config;
         }
