@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using PullaShop.Api.Models;
 using Moq;
-using PullaShop.Api.Data;
+using PullaShop.Api.DataAccess.Data;
 using System.Threading.Tasks;
 
 namespace PullaShop.Api.Test;

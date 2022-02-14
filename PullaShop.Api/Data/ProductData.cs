@@ -5,9 +5,9 @@ namespace PullaShop.Api.DataAccess.Data;
 
 public class ProductData : IProductData
 {
-    private readonly IDataAccess database;
+    private readonly ISqlDataAccess database;
 
-    public ProductData (IDataAccess database)
+    public ProductData (ISqlDataAccess database)
     {
         this.database = database;
     }
