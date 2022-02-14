@@ -27,4 +27,21 @@ public class ProductsUnitTest
         Assert.NotEmpty(actualAllProducts);
         Assert.Single(actualAllProducts);
     }
+
+    [Fact]
+    public async Task GetProductReturnsProduct()
+    {
+        //  // Arrange
+        var expectedProduct = new ProductModel { Name = "Test Product" };
+        var mock = new Mock<IProductData>();
+        mock.Setup(products => products.GetProduct(1)).ReturnsAsync(expectedProduct);
+        var productData = mock.Object;
+
+        // // Act
+        var actualProduct = await productData.GetProduct(1);
+
+        // // Assert
+        Assert.Equal<ProductModel>(expected: expectedProduct, actual: actualProduct);
+    }
+
 }
