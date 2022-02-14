@@ -32,4 +32,21 @@ namespace PullaShop.Api.Controllers;
 
             return Ok(products);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductModel>> GetProduct(int id)
+        {
+            var dataAccess = new SqlDataAccess(Configuration);
+            var productData = new ProductData(dataAccess);
+            var product = await productData.GetProduct(id);
+
+            if (product is null)
+                return NotFound(product);
+
+            return Ok(product);
+
+        }
+
     }
