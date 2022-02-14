@@ -18,9 +18,11 @@ public class ProductData : IProductData
             return this.database.LoadData<ProductModel, dynamic>(sql, new { });
     }
 
-    public Task<ProductModel> GetProduct(int productId) 
+    public Task<ProductModel> GetProduct(int id)
     {
-        throw new NotImplementedException();
+        var products = new List<ProductModel>();
+        string sql = $"SELECT Id, Name, Price, Description FROM AvailableProducts WHERE Id = '{id}'";
+        return this.database.LoadDataSingle<ProductModel, dynamic>(sql, new { });
     }
 
 }
