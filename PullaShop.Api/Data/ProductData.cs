@@ -18,4 +18,9 @@ public class ProductData : IProductData
             return this.database.LoadData<ProductModel, dynamic>(sql, new { });
     }
 
+    public Task<ProductModel> GetProduct(int productId) 
+    {
+        throw new NotImplementedException();
+    }
+
 }
