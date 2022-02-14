@@ -1,6 +1,24 @@
 var builder = WebApplication.CreateBuilder(args);
+string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, 
+    (builder => {
+        builder.WithOrigins(
+            "https://localhost:3000",
+            "http://localhost:3000",
+            "https://127.0.0.1:3000",
+            "http://127.0.0.1:3000"
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .SetIsOriginAllowed(origin => true) // allow any origin
+        .AllowCredentials();
+    }));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -16,7 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
