@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System.Collections.Generic;
 using PullaShop.Api.Models;
 using Moq;
@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace PullaShop.Api.Test;
 
-[TestClass]
 public class ProductsUnitTest
 {
     //Todo: Investigate: Skipped but why?
-    [TestMethod]
+     [Fact]
     public async Task GetAllProductsReturnsAllProducts()
     {
 
@@ -25,6 +24,6 @@ public class ProductsUnitTest
         var actualAllProducts = await productData.GetAllProducts();
 
         // Assert
-        Assert.AreEqual(1,actualAllProducts.Count);
+        Assert.Single(actualAllProducts);
     }
 }
