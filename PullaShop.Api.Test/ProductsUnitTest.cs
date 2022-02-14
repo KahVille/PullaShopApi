@@ -9,7 +9,7 @@ namespace PullaShop.Api.Test;
 
 public class ProductsUnitTest
 {
-    //Todo: Investigate: Skipped but why?
+
     [Fact]
     public async Task GetAllProductsReturnsAllProducts()
     {
@@ -24,6 +24,7 @@ public class ProductsUnitTest
         var actualAllProducts = await productData.GetAllProducts();
 
         // Assert
+        Assert.NotEmpty(actualAllProducts);
         Assert.Single(actualAllProducts);
     }
 }
