@@ -27,15 +27,14 @@ public class SqlDataAccess : ISqlDataAccess
             }
         }
 
-        public async Task<T> LoadDataSingle<T, U>(string sql, U parameters)
+        public async Task<T> LoadDataSingle<T>(string sql)
         {
 
             string connectionString = _config.GetConnectionString(MyConnectionString);
 
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
-                var data = await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
-
+                var data = await connection.QueryFirstOrDefaultAsync<T>(sql);
                 return data;
             }
         }

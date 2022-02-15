@@ -5,6 +5,8 @@ using Moq;
 using PullaShop.Api.DataAccess.Data;
 using System.Threading.Tasks;
 using PullaShop.Api.DataAccess.DatabaseAccess;
+using System.Linq;
+using System.Text.Json;
 
 namespace PullaShop.Api.Test;
 
@@ -38,16 +40,22 @@ public class ProductsUnitTest
     public async Task GetProductReturnsProduct()
     {
         // Arrange
-        var expectedProduct = new ProductModel { Id= 0, Name = "Test Product" };
-        var mock = new Mock<IProductData>();
-        mock.Setup(products => products.GetProduct(1)).ReturnsAsync(expectedProduct);
-        var productData = mock.Object;
+        var expectedProduct = GetSampleProducts().First();
+        int id = 0;
+        string sql = $"SELECT Id, Name, Price, Description FROM AvailableProducts WHERE Id = '{id}'";
+        var databaseMock = new Mock<ISqlDataAccess>();
+        databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
+        databaseMock.Setup(dataAccess => dataAccess.LoadDataSingle<ProductModel>(sql)).ReturnsAsync(GetSampleProducts().First());
+        
+        var productData = new ProductData(databaseMock.Object);
 
         // Act
-        var actualProduct = await productData.GetProduct(1);
+        var actualProduct = await productData.GetProduct(id);
 
         // Assert
-        Assert.Equal<ProductModel>(expected: expectedProduct, actual: actualProduct);
+        var expectedAsJson = JsonSerializer.Serialize(expectedProduct);
+        var actualAsJson =JsonSerializer.Serialize(actualProduct);
+        Assert.Equal(expectedAsJson, actualAsJson);
     }
 
     private List<ProductModel> GetSampleProducts()
