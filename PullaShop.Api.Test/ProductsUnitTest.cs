@@ -4,6 +4,7 @@ using PullaShop.Api.Models;
 using Moq;
 using PullaShop.Api.DataAccess.Data;
 using System.Threading.Tasks;
+using PullaShop.Api.DataAccess.DatabaseAccess;
 
 namespace PullaShop.Api.Test;
 
@@ -17,10 +18,13 @@ public class ProductsUnitTest
     {
 
         // Arrange
-        var initialProduct = new ProductModel { Id= 0, Name = "Test Product" };
-        var mock = new Mock<IProductData>();
-        mock.Setup(products => products.GetAllProducts()).ReturnsAsync(new List<ProductModel>() {initialProduct});
-        var productData = mock.Object;
+        string sql = "SELECT Id, Name, Price, Description FROM AvailableProducts";
+        
+        var databaseMock = new Mock<ISqlDataAccess>();
+        databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
+        databaseMock.Setup(dataAccess => dataAccess.LoadData<ProductModel>(sql)).ReturnsAsync(GetSampleProducts());
+        
+        var productData = new ProductData(databaseMock.Object);
 
         // Act
         var actualAllProducts = await productData.GetAllProducts();
@@ -44,6 +48,13 @@ public class ProductsUnitTest
 
         // Assert
         Assert.Equal<ProductModel>(expected: expectedProduct, actual: actualProduct);
+    }
+
+    private List<ProductModel> GetSampleProducts()
+    {
+        return new List<ProductModel>() {
+            new ProductModel { Id= 0, Name = "Test Product" }
+        };
     }
 
 }

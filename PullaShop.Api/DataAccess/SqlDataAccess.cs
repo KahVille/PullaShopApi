@@ -15,14 +15,14 @@ public class SqlDataAccess : ISqlDataAccess
             _config = config;
         }
 
-        public async Task<List<T>> LoadData<T, U>(string sql, U parameters)
+        public async Task<List<T>> LoadData<T>(string sql)
         {
 
             string connectionString = _config.GetConnectionString(MyConnectionString);
 
             using (IDbConnection connection = new MySqlConnection(connectionString))
             {
-                var data = await connection.QueryAsync<T>(sql, parameters);
+                var data = await connection.QueryAsync<T>(sql);
                 return data.ToList();
             }
         }
