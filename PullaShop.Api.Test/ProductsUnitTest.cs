@@ -13,8 +13,6 @@ namespace PullaShop.Api.Test;
 public class ProductsUnitTest
 {
 
-    // Note Tests not respond to actual implementations yet with mocking
-
     [Fact]
     public async Task GetAllProductsReturnsAllProducts()
     {
