@@ -30,8 +30,8 @@ public class FavouritesUnitTest
         databaseMock.Setup(dataAccess => dataAccess.SaveData<int>(sql)).ReturnsAsync(1);
 
         // Act
-        var favouritesData = new FavouriteData(databaseMock);
-        var actualSavedFavourites = await favouritesData.AddFavouriteProducts(It.IsAny<List<ProductModel>>);
+        var favouritesData = new FavouriteData(databaseMock.Object);
+        var actualSavedFavourites = await favouritesData.AddFavouriteProducts(It.IsAny<FavouriteModel>);
 
         // Assert
         Assert.Equal(expectedFavourites.Count, actualSavedFavourites.Count);
