@@ -4,6 +4,6 @@ namespace PullaShop.Api.DataAccess.Data;
 
 public interface IFavouriteData
 {
-    Task<FavouriteModel> GetFavourites();
+    Task<FavouriteModel> GetFavourites(int id);
     Task SaveFavourites(FavouriteModel favourites);
 }
