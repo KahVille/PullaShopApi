@@ -27,7 +27,7 @@ public class FavouritesUnitTest
         string sql = "";
         var databaseMock = new Mock<ISqlDataAccess>();
         databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
-        databaseMock.Setup(dataAccess => dataAccess.SaveData<List<ProductModel>>(sql)).ReturnsAsync(GetSampleProducts());
+        databaseMock.Setup(dataAccess => dataAccess.SaveData<int>(sql)).ReturnsAsync(1);
 
         // Act
         var favouritesData = new FavouriteData(databaseMock);
