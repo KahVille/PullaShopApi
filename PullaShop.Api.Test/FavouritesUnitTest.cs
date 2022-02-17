@@ -23,18 +23,23 @@ public class FavouritesUnitTest
     public async Task AddFavouriteProductsToFavaourites() {
 
         // Arrange
-        var expectedFavourites = GetSampleProducts();
+        var expectedFavourites = new FavouriteModel();
+        expectedFavourites.Id = 1;
+        expectedFavourites.Products = GetSampleProducts();
         string sql = "";
         var databaseMock = new Mock<ISqlDataAccess>();
         databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
-        databaseMock.Setup(dataAccess => dataAccess.SaveData<int>(sql)).ReturnsAsync(1);
+        databaseMock.Setup(dataAccess => dataAccess.SaveData<int>(sql)).Returns(Task.FromResult(1));
+        databaseMock.Setup(dataAccess => dataAccess.LoadDataSingle<FavouriteModel>(sql)).ReturnsAsync(expectedFavourites);
+
 
         // Act
         var favouritesData = new FavouriteData(databaseMock.Object);
-        var actualSavedFavourites = await favouritesData.AddFavouriteProducts(It.IsAny<FavouriteModel>);
+        await favouritesData.SaveFavourites(expectedFavourites);
+        var actualSavedFavourites = await favouritesData.GetFavourites(expectedFavourites.Id);
 
         // Assert
-        Assert.Equal(expectedFavourites.Count, actualSavedFavourites.Count);
+        Assert.Equal(expectedFavourites, actualSavedFavourites);
 
     }
 
