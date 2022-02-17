@@ -38,4 +38,15 @@ public class SqlDataAccess : ISqlDataAccess
                 return data;
             }
         }
+
+        public async Task<int> SaveData<T>(string sql)
+        {
+            string connectionString = _config.GetConnectionString(MyConnectionString);
+
+            using (IDbConnection connection = new MySqlConnection(connectionString))
+            {
+               var isSaved = await connection.ExecuteAsync(sql);
+               return isSaved;
+            }
+        }
 }
