@@ -39,7 +39,7 @@ public class SqlDataAccess : ISqlDataAccess
             }
         }
 
-        public async Task SaveData<T>(string sql)
+        public async Task SaveData<T>(string sql, T parameters)
         {
             string connectionString = _config.GetConnectionString(MyConnectionString);
 
