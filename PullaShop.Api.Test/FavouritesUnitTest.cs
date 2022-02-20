@@ -17,7 +17,25 @@ public class FavouritesUnitTest
     [Fact]
     public async Task GetAllFavouriteProductsReturnsAllFavouriteProducts()
     {
-        throw new NotImplementedException();
+        // Arrange
+        var expectedFavourites = new FavouriteModel();
+        expectedFavourites.Id = 1;
+        expectedFavourites.Products = GetSampleProducts();
+        string sql = $"SELECT Id, ProductId FROM FavouriteProducts WHERE Id = {1}";
+        var databaseMock = new Mock<ISqlDataAccess>();
+        databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
+        databaseMock.Setup(dataAccess => dataAccess.LoadData<ProductModel>(sql)).ReturnsAsync(GetSampleProducts());
+
+
+        // Act
+        var favouritesData = new FavouriteData(databaseMock.Object);
+        await favouritesData.SaveFavourites(expectedFavourites);
+        var actualFavourites = await favouritesData.GetFavourites(expectedFavourites.Id);
+
+        // Assert
+        Assert.Equal(expectedFavourites.Id, actualFavourites.Id);
+        Assert.Equal(expectedFavourites.Products.Count, actualFavourites.Products.Count);
+
     }
 
     public async Task AddFavouriteProductsToFavaourites() {
@@ -29,7 +47,7 @@ public class FavouritesUnitTest
         string sql = "";
         var databaseMock = new Mock<ISqlDataAccess>();
         databaseMock.Setup(dataAccess => dataAccess.MyConnectionString).Returns("Default");
-        databaseMock.Setup(dataAccess => dataAccess.SaveData<int>(sql)).Returns(Task.FromResult(1));
+        databaseMock.Setup(dataAccess => dataAccess.SaveData(sql, new {})).Returns(Task.FromResult(1));
         databaseMock.Setup(dataAccess => dataAccess.LoadDataSingle<FavouriteModel>(sql)).ReturnsAsync(expectedFavourites);
 
 

@@ -12,13 +12,30 @@ public class FavouriteData : IFavouriteData
         this.database = database;
     }
 
-    public Task<FavouriteModel> GetFavourites(int id)
+    public async Task<FavouriteModel> GetFavourites(int id)
     {
-        throw new NotImplementedException();
+        var sql = $"SELECT Id, ProductId FROM FavouriteProducts WHERE Id = {id}";
+        var favouriteProducts = await this.database.LoadData<ProductModel>(sql);
+
+        return new FavouriteModel() {
+            Id = id,
+            Products = favouriteProducts ?? new List<ProductModel>()
+        };
     }
 
     public Task SaveFavourites(FavouriteModel favourites)
     {
-        throw new NotImplementedException();
+        var productsToFavourite = favourites.Products;
+
+            string sql = @$"INSERT INTO FavouriteProducts (Id, ProductId) VALUES";
+        
+        productsToFavourite.ForEach(product => {
+                sql += $" ({favourites.Id}, {product.Id}),";
+        });
+        sql = sql.Substring(0, sql.Length-1);
+        sql += ";";
+
+        return this.database.SaveData(sql, favourites);
+
     }
 }
